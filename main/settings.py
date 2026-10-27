@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Render sets the RENDER environment variable automatically.
 ON_RENDER = 'RENDER' in os.environ
-
+ON_FLY = 'FLY_APP_NAME' in os.environ
 # SECURITY WARNING: keep the secret key used in production secret!
 # On Render, set SECRET_KEY in Environment Variables.
 SECRET_KEY = os.environ.get(
@@ -26,9 +26,9 @@ SECRET_KEY = os.environ.get(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = not ON_RENDER
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.onrender.com', '.fly.dev', '.pythonanywhere.com']
 
-CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com']
+CSRF_TRUSTED_ORIGINS = ['https://*.onrender.com', 'https://*.fly.dev', 'https://*.pythonanywhere.com']
 
 
 # Application definition
@@ -79,11 +79,7 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Locally, it falls back to your local PostgreSQL.
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default='postgresql://mdkawsar:mdkawsar123@127.0.0.1:5432/portfolio',
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': dj_database_url.config(default='sqlite:///' + str(BASE_DIR / 'db.sqlite3'))
 }
 
 
